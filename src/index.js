@@ -14,7 +14,7 @@ export default function promis (exec) {
     }
     return {
         then: then,
-        'catch': catch_
+        'catch': function (fn) { return then(void 0, fn) }
     }
     function done (state, val) {
         if (_state) return
@@ -31,9 +31,6 @@ export default function promis (exec) {
                 catcher ? createHandler(catcher, res, rej) : rej
             )
         })
-    }
-    function catch_ (fn) {
-        return then(fn)
     }
     function push (thener, catcher) {
         var tick = setTimeout
