@@ -2,20 +2,18 @@ export default function promis (exec) {
     var _state = 0 // 0:pending, 1:resolved, 2:rejected
     var _val = null
     var _queue = []
-    exec(resolve, reject)
-    return {
-        then: then,
-        'catch': catch_
-    }
-    function resolve (v) {
+    exec(function (v) {
         if (v && typeof v.then === 'function') {
             v.then(function (v) { done(1, v) })
         } else {
             done(1, v)
         }
-    }
-    function reject (err) {
+    }, function (err) {
         done(2, err)
+    })
+    return {
+        then: then,
+        'catch': catch_
     }
     function done (state, val) {
         if (_state > 0) return
@@ -37,8 +35,9 @@ export default function promis (exec) {
     }
     function push (thener, catcher) {
         var tick = setTimeout
-        switch (_state) {
-        case 0:
+        if (_state) {
+            tick(_state === 1 ? thener : catcher, 0, _val)
+        } else {
             _queue.push([
                 function () {
                     tick(thener, 0, _val)
@@ -47,12 +46,6 @@ export default function promis (exec) {
                     tick(catcher, 0, _val)
                 }
             ])
-            break
-        case 1:
-            tick(thener, 0, _val)
-            break
-        case 2:
-            tick(catcher, 0, _val)
         }
     }
 }
