@@ -7,14 +7,14 @@
     "unpkg": "dist/index.umd.js",
     "license": "MIT",
     "scripts": {
-        "build": "microbundle -f es,cjs,umd",
+        "build": "bundt",
         "test": "node -r esm src/test.js"
     },
     "devDependencies": {
+        "bundt": "^1.1.1",
         "eslint": "^7.15.0",
         "eslint-config-byungi": "^0.14.3",
         "esm": "^3.2.25",
-        "microbundle": "^0.12.4",
         "uvu": "^0.5.1"
     },
     "eslintConfig": {
