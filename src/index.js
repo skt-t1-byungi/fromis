@@ -5,7 +5,7 @@ export default function promis (exec) {
     exec(resolve, reject)
     return {
         then: then,
-        catch: catch_
+        'catch': catch_
     }
     function resolve (v) {
         if (v && typeof v.then === 'function') {
@@ -35,13 +35,13 @@ export default function promis (exec) {
             push(res, createHandler(fn, res, rej))
         })
     }
-    function push (then, catcher) {
+    function push (thener, catcher) {
         var tick = setTimeout
         switch (_state) {
         case 0:
             _queue.push([
                 function () {
-                    tick(then, 0, _val)
+                    tick(thener, 0, _val)
                 },
                 function () {
                     tick(catcher, 0, _val)
@@ -49,7 +49,7 @@ export default function promis (exec) {
             ])
             break
         case 1:
-            tick(then, 0, _val)
+            tick(thener, 0, _val)
             break
         case 2:
             tick(catcher, 0, _val)
