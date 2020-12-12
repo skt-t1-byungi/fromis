@@ -1,4 +1,4 @@
-function promis (exec) {
+export default function promis (exec) {
     var _state = 0 // 0:pending, 1:resolved, 2:rejected
     var _val = null
     var _queue = []
@@ -36,25 +36,27 @@ function promis (exec) {
         })
     }
     function push (then, catcher) {
+        var tick = setTimeout
         switch (_state) {
         case 0:
             _queue.push([
                 function () {
-                    setTimeout(then, 0, _val)
+                    tick(then, 0, _val)
                 },
                 function () {
-                    setTimeout(catcher, 0, _val)
+                    tick(catcher, 0, _val)
                 }
             ])
             break
         case 1:
-            setTimeout(then, 0, _val)
+            tick(then, 0, _val)
             break
         case 2:
-            setTimeout(catcher, 0, _val)
+            tick(catcher, 0, _val)
         }
     }
 }
+
 function createHandler (fn, res, rej) {
     return function (v) {
         try {
