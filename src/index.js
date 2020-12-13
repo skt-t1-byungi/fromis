@@ -44,7 +44,7 @@ export default function promis (exec) {
     function push (thener, catcher) {
         var tick = setTimeout
         if (~_state) {
-            tick(_state === 1 ? thener : catcher, 0, _val)
+            tick(_state ? catcher : thener, 0, _val)
         } else {
             _queue.push([
                 function () {
