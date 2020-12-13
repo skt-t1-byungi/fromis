@@ -37,9 +37,7 @@ test('chaining', async () => {
         .then(v => v + 2)
         .then(push)
     $.equal(buf, [])
-    await nextTick()
-    $.equal(buf, [1])
-    await nextTick(3)
+    await nextTick(4)
     $.equal(buf, [1, 1, 3])
 })
 
