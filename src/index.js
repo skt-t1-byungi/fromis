@@ -1,40 +1,49 @@
 export default function promis (exec) {
-    var _state = 0 // 0:pending, 1:resolved, 2:rejected
+    var _state = -1 // -1:pending, 0:resolved, 1:rejected
     var _val = null
     var _queue = []
     exec(function (v) {
         if (v && typeof v.then === 'function') {
-            v.then(function (v) { done(1, v) }, reject)
+            v.then(function (v) { done(0, v) }, reject)
         } else {
-            done(1, v)
+            done(0, v)
         }
     }, reject)
     function reject (err) {
-        done(2, err)
+        done(1, err)
     }
     return {
         then: then,
-        'catch': function (fn) { return then(void 0, fn) }
+        'catch': function (fn) { return then(null, fn) }
     }
     function done (state, val) {
-        if (_state) return
+        if (~_state) return
         _state = state
         _val = val
-        var i = state - 1
-        _queue.forEach(function (arr) { arr[i]() })
+        _queue.forEach(function (arr) { arr[state]() })
         _queue = null
     }
     function then (thener, catcher) {
         return promis(function (res, rej) {
             push(
-                thener ? createHandler(thener, res, rej) : res,
-                catcher ? createHandler(catcher, res, rej) : rej
+                thener ? wrap(thener) : res,
+                catcher ? wrap(catcher) : rej
             )
+            function wrap (fn) {
+                return function (v) {
+                    try {
+                        v = fn(v)
+                    } catch (err) {
+                        return rej(err)
+                    }
+                    res(v)
+                }
+            }
         })
     }
     function push (thener, catcher) {
         var tick = setTimeout
-        if (_state) {
+        if (~_state) {
             tick(_state === 1 ? thener : catcher, 0, _val)
         } else {
             _queue.push([
@@ -46,16 +55,5 @@ export default function promis (exec) {
                 }
             ])
         }
-    }
-}
-
-function createHandler (fn, res, rej) {
-    return function (v) {
-        try {
-            v = fn(v)
-        } catch (err) {
-            return rej(err)
-        }
-        res(v)
     }
 }
