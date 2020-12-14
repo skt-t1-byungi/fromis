@@ -1,4 +1,4 @@
-export default function promis (exec) {
+export default function fromis (exec) {
     var _state = -1 // -1:pending, 0:resolved, 1:rejected
     var _val = null
     var _queue = []
@@ -24,7 +24,7 @@ export default function promis (exec) {
         _queue = null
     }
     function then (thener, catcher) {
-        return promis(function (res, rej) {
+        return fromis(function (res, rej) {
             push(
                 thener ? wrap(thener) : res,
                 catcher ? wrap(catcher) : rej

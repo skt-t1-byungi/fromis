@@ -1,20 +1,22 @@
-# @byungi/promis
+# fromis
 A simple promise implementation (~300Byte)
+
+![fromis9](logo.png)
 
 ## Install
 ```
-npm i @byungi/promis
+npm i fromis
 ```
 
 ### UMD
 ```html
-<script src="http://unpkg.com/@byungi/promis">
+<script src="http://unpkg.com/fromis">
 ```
 ## Example
 ```js
-import promis from '@byungi/promis'
+import fromis from 'fromis'
 
-const promise = promis((resolve, reject) => { /* ... */ })
+const promise = fromis((resolve, reject) => { /* ... */ })
     .then(/* ... */)
     .catch(/* ... */)
 ```

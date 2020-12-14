@@ -1,7 +1,7 @@
 {
-    "name": "@byungi/promis",
+    "name": "fromis",
     "description": "A simple promise implementation (~300Byte)",
-    "repository": "https://github.com/skt-t1-byungi/promis.git",
+    "repository": "https://github.com/skt-t1-byungi/fromis.git",
     "author": "byungi <tiniwz@gmail.com>",
     "version": "0.0.2",
     "source": "src/index.js",
@@ -40,8 +40,5 @@
     },
     "eslintIgnore": [
         "dist"
-    ],
-    "publishConfig": {
-        "access": "public"
-    }
+    ]
 }
