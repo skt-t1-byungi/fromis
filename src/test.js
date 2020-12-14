@@ -1,7 +1,7 @@
 import { test } from 'uvu'
 import * as $ from 'uvu/assert'
 
-import promis from '.'
+import fromis from '.'
 
 const buf = []
 const push = v => (buf.push(v), v)
@@ -17,13 +17,13 @@ const nextTick = (n = 1) => new Promise(function recur (res) {
 test.before.each(clear)
 
 test('resolve', async () => {
-    $.is(await promis(res => res('resolved')), 'resolved')
+    $.is(await fromis(res => res('resolved')), 'resolved')
 })
 
 test('reject', async () => {
     let err
     try {
-        await promis((_, rej) => rej('rejected'))
+        await fromis((_, rej) => rej('rejected'))
     } catch (err_) {
         err = err_
     }
@@ -31,7 +31,7 @@ test('reject', async () => {
 })
 
 test('chaining', async () => {
-    promis(r => r(1))
+    fromis(r => r(1))
         .then(push)
         .then(push)
         .then(v => v + 2)
@@ -42,7 +42,7 @@ test('chaining', async () => {
 })
 
 test('catch', async () => {
-    promis((_, rej) => rej(1))
+    fromis((_, rej) => rej(1))
         .then(push)
         .then(push)
         .catch(v => v + 2)
@@ -52,20 +52,20 @@ test('catch', async () => {
 })
 
 test('flattening', async () => {
-    promis(r1 => r1(promis(r2 => r2(1))))
+    fromis(r1 => r1(fromis(r2 => r2(1))))
         .then(push)
     await nextTick(2)
     $.equal(buf, [1])
     clear()
 
-    promis(r => r())
-        .then(() => promis(r => r(2)))
+    fromis(r => r())
+        .then(() => fromis(r => r(2)))
         .then(push)
     await nextTick(3)
     $.equal(buf, [2])
     clear()
 
-    promis(r => r(promis((_, rej) => rej(3))))
+    fromis(r => r(fromis((_, rej) => rej(3))))
         .then(push)
         .catch(v => v + 2)
         .then(push)
@@ -73,8 +73,8 @@ test('flattening', async () => {
     $.equal(buf, [5])
     clear()
 
-    promis((_, rej) => rej())
-        .catch(() => promis(r => r(4)))
+    fromis((_, rej) => rej())
+        .catch(() => fromis(r => r(4)))
         .then(push)
     await nextTick(3)
     $.equal(buf, [4])
