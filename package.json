@@ -10,11 +10,16 @@
     "unpkg": "dist/index.umd.js",
     "types": "types.d.ts",
     "license": "MIT",
+    "keywords": ["promise", "async", "implementation"],
     "scripts": {
         "build": "bundt",
         "test": "node -r esm src/test.js",
-        "test:w": "watchlist src -- yarn test"
+        "test:w": "watchlist src -- yarn test",
+        "prepublishOnly": "rm dist -rf && yarn build"
     },
+    "files": [
+        "dist"
+    ],
     "devDependencies": {
         "bundt": "^1.1.1",
         "eslint": "^7.15.0",
