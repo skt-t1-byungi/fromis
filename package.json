@@ -3,14 +3,18 @@
     "description": "A simple promise implementation (~300Byte)",
     "repository": "https://github.com/skt-t1-byungi/promis.git",
     "author": "byungi <tiniwz@gmail.com>",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "source": "src/index.js",
     "main": "dist/index.js",
     "module": "dist/index.module.js",
     "unpkg": "dist/index.umd.js",
     "types": "types.d.ts",
     "license": "MIT",
-    "keywords": ["promise", "async", "implementation"],
+    "keywords": [
+        "promise",
+        "async",
+        "implementation"
+    ],
     "scripts": {
         "build": "bundt",
         "test": "node -r esm src/test.js",
