@@ -1,10 +1,14 @@
 {
     "name": "@byungi/promis",
+    "description": "A simple promise implementation (~300Byte)",
+    "repository": "https://github.com/skt-t1-byungi/promis.git",
+    "author": "byungi <tiniwz@gmail.com>",
     "version": "0.0.1",
     "source": "src/index.js",
     "main": "dist/index.js",
     "module": "dist/index.module.js",
     "unpkg": "dist/index.umd.js",
+    "types": "types.d.ts",
     "license": "MIT",
     "scripts": {
         "build": "bundt",
@@ -27,5 +31,8 @@
     },
     "eslintIgnore": [
         "dist"
-    ]
+    ],
+    "publishConfig": {
+        "access": "public"
+    }
 }
