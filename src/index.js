@@ -24,7 +24,7 @@ export default function fromis (exec, arg1) {
         if (arg1 === symbol) {
             flush()
         } else {
-            setTimeout(flush, 0)
+            setTimeout(flush)
         }
     }
     function flush () {
