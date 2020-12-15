@@ -28,7 +28,6 @@ export default function fromis (exec, arg1) {
         }
     }
     function flush () {
-        if (!_queue) return
         _queue.forEach(function (arr) { arr[_state](_val) })
         _queue = null
     }
