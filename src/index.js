@@ -1,4 +1,5 @@
-export default function fromis (exec) {
+var symbol = {}
+export default function fromis (exec, arg1) {
     var _state = -1 // -1:pending, 0:resolved, 1:rejected
     var _val = null
     var _queue = []
@@ -20,15 +21,28 @@ export default function fromis (exec) {
         if (~_state) return
         _state = state
         _val = val
-        _queue.forEach(function (arr) { arr[state]() })
+        if (arg1 === symbol) {
+            flush()
+        } else {
+            setTimeout(flush, 0)
+        }
+    }
+    function flush () {
+        if (!_queue) return
+        _queue.forEach(function (arr) { arr[_state](_val) })
         _queue = null
     }
     function then (thener, catcher) {
         return fromis(function (res, rej) {
-            push(
+            var arr = [
                 thener ? wrap(thener) : res,
                 catcher ? wrap(catcher) : rej
-            )
+            ]
+            if (_queue) {
+                _queue.push(arr)
+            } else {
+                arr[_state](_val)
+            }
             function wrap (fn) {
                 return function (v) {
                     try {
@@ -39,21 +53,6 @@ export default function fromis (exec) {
                     res(v)
                 }
             }
-        })
-    }
-    function push (thener, catcher) {
-        var tick = setTimeout
-        if (~_state) {
-            tick(_state ? catcher : thener, 0, _val)
-        } else {
-            _queue.push([
-                function () {
-                    tick(thener, 0, _val)
-                },
-                function () {
-                    tick(catcher, 0, _val)
-                }
-            ])
-        }
+        }, symbol)
     }
 }

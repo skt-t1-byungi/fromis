@@ -47,7 +47,7 @@ test('catch', async () => {
         .then(push)
         .catch(v => v + 2)
         .then(push)
-    await nextTick(4)
+    await nextTick()
     $.equal(buf, [3])
 })
 
