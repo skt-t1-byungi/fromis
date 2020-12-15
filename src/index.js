@@ -1,5 +1,5 @@
 export default function fromis (exec) {
-    return _fromis(0, exec)
+    return _fromis(false, exec)
 }
 function _fromis (sync, exec) {
     var _state = -1 // -1:pending, 0:resolved, 1:rejected
@@ -17,7 +17,7 @@ function _fromis (sync, exec) {
     }
     return {
         then: then,
-        'catch': function (fn) { return then(0, fn) }
+        'catch': function (fn) { return then(null, fn) }
     }
     function done (state, val) {
         if (~_state) return
@@ -34,7 +34,7 @@ function _fromis (sync, exec) {
         _queue = null
     }
     function then (thener, catcher) {
-        return _fromis(1, function (res, rej) {
+        return _fromis(true, function (res, rej) {
             var arr = [
                 thener ? wrap(thener) : res,
                 catcher ? wrap(catcher) : rej
