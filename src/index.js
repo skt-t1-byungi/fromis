@@ -1,5 +1,7 @@
-var symbol = {}
-export default function fromis (exec, arg1) {
+export default function fromis (exec) {
+    return _fromis(0, exec)
+}
+function _fromis (sync, exec) {
     var _state = -1 // -1:pending, 0:resolved, 1:rejected
     var _val = null
     var _queue = []
@@ -21,7 +23,7 @@ export default function fromis (exec, arg1) {
         if (~_state) return
         _state = state
         _val = val
-        if (arg1 === symbol) {
+        if (sync) {
             flush()
         } else {
             setTimeout(flush)
@@ -32,7 +34,7 @@ export default function fromis (exec, arg1) {
         _queue = null
     }
     function then (thener, catcher) {
-        return fromis(function (res, rej) {
+        return _fromis(1, function (res, rej) {
             var arr = [
                 thener ? wrap(thener) : res,
                 catcher ? wrap(catcher) : rej
@@ -52,6 +54,6 @@ export default function fromis (exec, arg1) {
                     res(v)
                 }
             }
-        }, symbol)
+        })
     }
 }
