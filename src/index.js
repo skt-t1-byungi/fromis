@@ -15,7 +15,7 @@ export default function fromis (exec, arg1) {
     }
     return {
         then: then,
-        'catch': function (fn) { return then(null, fn) }
+        'catch': function (fn) { return then(0, fn) }
     }
     function done (state, val) {
         if (~_state) return
