@@ -22,7 +22,8 @@
         "prepublishOnly": "rm dist -rf && yarn build"
     },
     "files": [
-        "dist"
+        "dist/",
+        "types.d.ts"
     ],
     "devDependencies": {
         "bundt": "^1.1.1",
