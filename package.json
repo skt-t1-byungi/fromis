@@ -3,7 +3,7 @@
     "description": "A simple promise implementation (~300Byte)",
     "repository": "https://github.com/skt-t1-byungi/fromis.git",
     "author": "byungi <tiniwz@gmail.com>",
-    "version": "0.0.3",
+    "version": "0.1.0",
     "source": "src/index.js",
     "main": "dist/index.js",
     "module": "dist/index.module.js",
