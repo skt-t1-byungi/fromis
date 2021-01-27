@@ -7,7 +7,7 @@ function _fromis(sync, exec) {
     var _val = null
     var _queue = []
     exec(function (v) {
-        if (v && typeof v.then === "function") {
+        if (v && typeof v.then === 'function') {
             v.then(function (v) {
                 done(0, v)
             }, reject)
